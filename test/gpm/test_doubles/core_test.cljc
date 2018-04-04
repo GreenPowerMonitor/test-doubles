@@ -33,12 +33,15 @@
     (is (->> greetings-function td/calls-to (every? #(= % "Hola!"))))))
 
 (deftest ignoring-functions
-  (let [double-and-greet (fn [x] (greetings-function) (* 2 x))]
+  (let [double-and-greet (fn [x] (print x) (greetings-function) (* 2 x))]
+
+    (is (= "2Hola!\n" (with-out-str (double-and-greet 2))))
 
     (td/with-doubles
-      :ignoring [greetings-function]
+      :ignoring [greetings-function
+                 print]
 
-      (is (= 4 (double-and-greet 2))))))
+      (is (= "" (with-out-str (double-and-greet 2)))))))
 
 (deftest stubbing-functions
   (testing "make a function return a given sequence of values in successive calls"

@@ -150,7 +150,7 @@ the calls to each spied function and the arguments passed to them in each call.
 ### 3. Ignoring function calls
 You can use the `:ignoring` option inside `with-doubles` macro to ignore all the calls to the functions included in the vector after `:ignoring` keyword.
 
-In the following example, even though you call the `double-print-x-and-greet` function, nothing gets printed on the console because `greetings-function`and `println` get ignored.
+In the following example, even though you call the `double-print-x-and-greet` function inside `with-doubles`, nothing gets printed on the console because `greetings-function`and `print` get ignored.
 ```clojure
 (ns gpm.test-doubles.stubbing-with-returns-examples
   (:require
@@ -161,15 +161,15 @@ In the following example, even though you call the `double-print-x-and-greet` fu
   (println "Hola!"))
 
 (deftest ignoring-functions
-  (let [double-print-x-and-greet (fn [x]
-		                           (println x)
-		                           (greetings-function)
-		                           (* 2 x))]
+  (let [double-and-greet (fn [x] (print x) (greetings-function) (* 2 x))]
+
+    (is (= "2Hola!\n" (with-out-str (double-and-greet 2))))
+
     (td/with-doubles
       :ignoring [greetings-function
-                 println]
+                 print]
 
-      (is (= 4 (double-print-x-and-greet 2))))))
+      (is (= "" (with-out-str (double-and-greet 2)))))))
 ```
 ### 4. Combining different types of test doubles inside `with-doubles` macro.
 You can use as many test doubles as you want inside `with-doubles` macro.
