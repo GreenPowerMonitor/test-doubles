@@ -200,6 +200,7 @@ In the following example, we are using two **stubs** (one with `:maps` option an
 ## Footnotes
 
 <a name="nota1"></a> 1. Notice that some verbs that are functions in Clojure might be macros in ClojureScript or viceversa. For instance `+` is a function in Clojure, but a macro in ClojureScript.
+
 <a name="nota2"></a> 2. All the examples in this document should work in both Clojure and ClojureScript. We take advantage of _implicit macro loading_ and _auto-aliasing clojure namespaces_, read more about it in the [Differences from Clojure](https://clojurescript.org/about/differences) section of the ClojureScript site.
 
 
