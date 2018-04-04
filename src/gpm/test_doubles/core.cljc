@@ -1,4 +1,6 @@
-(ns gpm.test-doubles.core)
+(ns gpm.test-doubles.core
+  #?(:cljs (:require-macros
+             [gpm.test-doubles.core])))
 
 (def ^:dynamic *spies-atom* (atom {}))
 

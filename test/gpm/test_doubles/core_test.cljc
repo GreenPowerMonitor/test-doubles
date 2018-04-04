@@ -1,9 +1,7 @@
 (ns gpm.test-doubles.core-test
   (:require
-    #?(:cljs [cljs.test :refer-macros [deftest is testing]]
-       :clj [clojure.test :refer :all])
-    #?(:cljs [gpm.test-doubles.core :as td :include-macros true]
-       :clj [gpm.test-doubles.core :as td])))
+    [clojure.test :refer [deftest is testing]]
+    [gpm.test-doubles.core :as td]))
 
 (defn some-function [a b]
   (println a b))
