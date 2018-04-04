@@ -47,7 +47,7 @@
 #?(:clj
    (defn- create-ignoring-list [functions]
      (->> functions
-          (mapcat #(conj [] % `(fn [])))
+          (mapcat #(conj [] % `(constantly nil)))
           vec)))
 
 #?(:clj
