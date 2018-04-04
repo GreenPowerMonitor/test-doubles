@@ -4,7 +4,7 @@ A small spying and stubbing library for Clojure and ClojureScript.
 
 ## Install
 
-Add `[test-doubles "0.1.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[gpm/test-doubles "0.1.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
 
 ## Usage
 

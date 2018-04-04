@@ -1,4 +1,4 @@
-(defproject test-doubles "0.1.0"
+(defproject gpm/test-doubles "0.1.0"
   :description "A small spying and stubbing library for Clojure and ClojureScript"
   :url "https://github.com/GreenPowerMonitor/test-doubles"
   :license {:name "Eclipse Public License"
