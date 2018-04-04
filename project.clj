@@ -1,6 +1,6 @@
 (defproject test-doubles "0.1.0"
   :description "A small spying and stubbing library for Clojure and ClojureScript"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/GreenPowerMonitor/test-doubles"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
