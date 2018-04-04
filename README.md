@@ -25,8 +25,8 @@ In the following example[<sup>2</sup>](#nota2), we stub the `rand` function to m
 ```clojure
 (ns gpm.test-doubles.stubbing-with-returns-examples
   (:require
-   [cljs.test :refer-macros [deftest testing is]]
-   [gpm.test-doubles.core :as td :include-macros true]))
+   [clojure.test :refer [deftest testing is]]
+   [gpm.test-doubles.core :as td]))
 
 (deftest stubbing-functions-using-returns
   (testing "make a function return a given sequence of values in successive calls"
@@ -54,8 +54,8 @@ In the following example, we stub the `rand` function so that it always returns 
 ```clojure
 (ns gpm.test-doubles.stubbing-with-constantly-examples
   (:require
-   [cljs.test :refer-macros [deftest testing is]]
-   [gpm.test-doubles.core :as td :include-macros true]))
+   [clojure.test :refer [deftest testing is]]
+   [gpm.test-doubles.core :as td]))
 
 (deftest stubbing-functions-using-constantly
   (testing "make a function return always the same value"
@@ -88,8 +88,8 @@ a `nil` will be returned when the received parameters don't match any of the map
 ```clojure
 (ns gpm.test-doubles.stubbing-with-maps-examples
   (:require
-   [cljs.test :refer-macros [deftest testing is]]
-   [gpm.test-doubles.core :as td :include-macros true]))
+   [clojure.test :refer [deftest testing is]]
+   [gpm.test-doubles.core :as td]))
 
   (defn do-some-computation-fn [_ _])
 
@@ -119,8 +119,8 @@ the calls to each spied function and the arguments passed to them in each call.
 ```clojure
 (ns gpm.test-doubles.spying-examples
   (:require
-   [cljs.test :refer-macros [deftest testing is]]
-   [gpm.test-doubles.core :as td :include-macros true]))
+   [clojure.test :refer [deftest testing is]]
+   [gpm.test-doubles.core :as td]))
 
 (defn- some-function [a b]
   (println a b))
@@ -154,8 +154,8 @@ In the following example, even though you call the `double-print-x-and-greet` fu
 ```clojure
 (ns gpm.test-doubles.stubbing-with-returns-examples
   (:require
-   [cljs.test :refer-macros [deftest testing is]]
-   [gpm.test-doubles.core :as td :include-macros true]))
+   [clojure.test :refer [deftest testing is]]
+   [gpm.test-doubles.core :as td]))
 
 (defn- greetings-function []
   (println "Hola!"))
@@ -200,7 +200,7 @@ In the following example, we are using two **stubs** (one with `:maps` option an
 ## Footnotes
 
 <a name="nota1"></a> 1. Notice that some verbs that are functions in Clojure might be macros in ClojureScript or viceversa. For instance `+` is a function in Clojure, but a macro in ClojureScript.
-<a name="nota2"></a> 2. All the examples in this document are written in ClojureScript.
+<a name="nota2"></a> 2. All the examples in this document should work in both Clojure and ClojureScript. We take advantage of _implicit macro loading_ and _auto-aliasing clojure namespaces_, read more about it in the [Differences from Clojure](https://clojurescript.org/about/differences) section of the ClojureScript site.
 
 
 ## License
