@@ -26,7 +26,7 @@ In the following example[<sup>2</sup>](#nota2), we stub the `rand` function to m
 (ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles :as td]))
 
 (deftest stubbing-functions-using-returns
   (testing "make a function return a given sequence of values in successive calls"
@@ -55,7 +55,7 @@ In the following example, we stub the `rand` function so that it always returns 
 (ns greenpowermonitor.test-doubles.stubbing-with-constantly-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles :as td]))
 
 (deftest stubbing-functions-using-constantly
   (testing "make a function return always the same value"
@@ -89,7 +89,7 @@ a `nil` will be returned when the received parameters don't match any of the map
 (ns greenpowermonitor.test-doubles.stubbing-with-maps-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles :as td]))
 
   (defn do-some-computation-fn [_ _])
 
@@ -120,7 +120,7 @@ the calls to each spied function and the arguments passed to them in each call.
 (ns greenpowermonitor.test-doubles.spying-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles :as td]))
 
 (defn- some-function [a b]
   (println a b))
@@ -155,7 +155,7 @@ In the following example, even though you call the `double-print-x-and-greet` fu
 (ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles :as td]))
 
 (defn- greetings-function []
   (println "Hola!"))

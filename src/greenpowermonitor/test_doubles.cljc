@@ -1,6 +1,6 @@
-(ns greenpowermonitor.test-doubles.core
+(ns greenpowermonitor.test-doubles
   #?(:cljs (:require-macros
-             [greenpowermonitor.test-doubles.core])))
+             [greenpowermonitor.test-doubles])))
 
 (def ^:dynamic *spies-atom* (atom {}))
 

@@ -1,7 +1,7 @@
-(ns greenpowermonitor.test-doubles.unit-tests-runner
+(ns greenpowermonitor.unit-tests-runner
   (:require
     [doo.runner :refer-macros [doo-tests]]
-    [greenpowermonitor.test-doubles.core-test]))
+    [greenpowermonitor.test-doubles-test]))
 
 (doo-tests
-  'greenpowermonitor.test-doubles.core-test)
+  'greenpowermonitor.test-doubles-test)
