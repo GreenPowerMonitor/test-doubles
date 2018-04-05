@@ -4,7 +4,7 @@ A small spying and stubbing library for Clojure and ClojureScript.
 
 ## Install
 
-Add `[gpm/test-doubles "0.1.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[greenpowermonitor/test-doubles "0.1.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
 
 ## Usage
 
@@ -23,10 +23,10 @@ This option makes a function **return a given sequence of values in successive c
 In the following example[<sup>2</sup>](#nota2), we stub the `rand` function to make it return four values in sequence, `1`, `4`, `6`, `3`. When you call `rand` more times than the number of values in the provided sequence, an exception gets thrown (see the message and data in the exception at the end of this test).
 
 ```clojure
-(ns gpm.test-doubles.stubbing-with-returns-examples
+(ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [gpm.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles.core :as td]))
 
 (deftest stubbing-functions-using-returns
   (testing "make a function return a given sequence of values in successive calls"
@@ -52,10 +52,10 @@ This option makes a function **always return the same value**.
 
 In the following example, we stub the `rand` function so that it always returns 1.
 ```clojure
-(ns gpm.test-doubles.stubbing-with-constantly-examples
+(ns greenpowermonitor.test-doubles.stubbing-with-constantly-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [gpm.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles.core :as td]))
 
 (deftest stubbing-functions-using-constantly
   (testing "make a function return always the same value"
@@ -86,10 +86,10 @@ Notice how, in this last case, if you don't explicitly provide a value for any o
 a `nil` will be returned when the received parameters don't match any of the map keys.
 
 ```clojure
-(ns gpm.test-doubles.stubbing-with-maps-examples
+(ns greenpowermonitor.test-doubles.stubbing-with-maps-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [gpm.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles.core :as td]))
 
   (defn do-some-computation-fn [_ _])
 
@@ -117,10 +117,10 @@ You can use the `:spying` option inside `with-doubles` macro to spy on all the c
 In the following example, we spy the calls to `some-function` and `println` functions. Then we call twice `some-function` and three times `greetings-function` (which calls `println`). Finally, we use `calls-to` function to check
 the calls to each spied function and the arguments passed to them in each call.
 ```clojure
-(ns gpm.test-doubles.spying-examples
+(ns greenpowermonitor.test-doubles.spying-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [gpm.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles.core :as td]))
 
 (defn- some-function [a b]
   (println a b))
@@ -152,10 +152,10 @@ You can use the `:ignoring` option inside `with-doubles` macro to ignore all the
 
 In the following example, even though you call the `double-print-x-and-greet` function inside `with-doubles`, nothing gets printed on the console because `greetings-function`and `print` get ignored.
 ```clojure
-(ns gpm.test-doubles.stubbing-with-returns-examples
+(ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
   (:require
    [clojure.test :refer [deftest testing is]]
-   [gpm.test-doubles.core :as td]))
+   [greenpowermonitor.test-doubles.core :as td]))
 
 (defn- greetings-function []
   (println "Hola!"))
