@@ -44,25 +44,24 @@
 (deftest stubbing-functions
   (testing "make a function return a given sequence of values in successive calls"
     (td/with-doubles
-      :stubbing [rand :returns [1 4 6 3]]
+      :stubbing [rand-nth :returns [1 4 6]]
 
-      (is (= 1 (rand)))
-      (is (= 4 (rand)))
-      (is (= 6 (rand)))
-      (is (= 3 (rand)))
+      (is (= 1 (rand-nth [])))
+      (is (= 4 (rand-nth [2 3])))
+      (is (= 6 (rand-nth [1 2 3])))
 
-      #?(:cljs (is (thrown? js/Error (rand)))
-         :clj  (is (thrown? Exception (rand))))
+      #?(:cljs (is (thrown? js/Error (rand-nth [9])))
+         :clj  (is (thrown? Exception (rand-nth [5 8]))))
 
       (try
-        (rand)
+        (rand-nth [])
         (catch #?(:clj  Exception
                   :cljs :default)
                e
           (is (= "Too many calls to stub"
                  #?(:clj  (.getMessage e)
                     :cljs (ex-message e))))
-          (is (= {:causes :calls-exceeded, :provided-return-values [1 4 6 3]}
+          (is (= {:causes :calls-exceeded, :provided-return-values [1 4 6]}
                  (ex-data e)))))))
 
   (testing "make a function return always the same value"
