@@ -13,7 +13,7 @@
 
 (defn make-mult-calls-stub-fn [values]
   (let [values-atom (atom values)]
-    (fn []
+    (fn [& _]
       (if (empty? @values-atom)
         (throw (ex-info "Too many calls to stub"
                         {:causes :calls-exceeded
