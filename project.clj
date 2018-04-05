@@ -1,4 +1,4 @@
-(defproject gpm/test-doubles "0.1.0"
+(defproject greenpowermonitor/test-doubles "0.1.0"
   :description "A small spying and stubbing library for Clojure and ClojureScript"
   :url "https://github.com/GreenPowerMonitor/test-doubles"
   :license {:name "Eclipse Public License"
@@ -17,6 +17,6 @@
   :cljsbuild {:builds [{:id "unit-tests"
                         :source-paths ["src" "test"]
                         :compiler {:output-to "out/unit_tests.js"
-                                   :main gpm.test-doubles.unit-tests-runner
+                                   :main greenpowermonitor.test-doubles.unit-tests-runner
                                    :target :nodejs
                                    :optimizations :none}}]})

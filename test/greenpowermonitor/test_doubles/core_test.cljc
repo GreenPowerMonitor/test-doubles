@@ -1,7 +1,7 @@
-(ns gpm.test-doubles.core-test
+(ns greenpowermonitor.test-doubles.core-test
   (:require
     [clojure.test :refer [deftest is testing]]
-    [gpm.test-doubles.core :as td]))
+    [greenpowermonitor.test-doubles.core :as td]))
 
 (defn some-function [a b]
   (println a b))
