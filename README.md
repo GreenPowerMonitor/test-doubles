@@ -178,9 +178,9 @@ In the following example, we are using two **stubs** (one with `:maps` option an
 ```clojure
 (deftest saving-changes
   (let [changes {:interventions {53 7}}
-         :expected-output :some-expected-request-data-to-save
-         some-api-url "some-url"
-         state-id 1]
+        expected-output :some-expected-request-data-to-save
+        some-api-url "some-url"
+        state-id 1]
     (td/with-doubles
       :stubbing [l/view :maps {[domain.rim/rim-wo-edit-changes-lens] changes
                                [domain.rim/rim-wo-edit-state-id-lens] state-id
