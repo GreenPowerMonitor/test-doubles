@@ -21,6 +21,6 @@
   :cljsbuild {:builds [{:id "unit-tests"
                         :source-paths ["src" "test"]
                         :compiler {:output-to "out/unit_tests.js"
-                                   :main greenpowermonitor.test-doubles.unit-tests-runner
+                                   :main greenpowermonitor.unit-tests-runner
                                    :target :nodejs
                                    :optimizations :none}}]})
