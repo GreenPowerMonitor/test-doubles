@@ -14,15 +14,7 @@
 
   :clean-targets ^{:protect false} ["resources/public/js" "target" "out"]
 
-  :cljsbuild {:builds [{:id "min"
-                        :source-paths ["src"]
-                        :compiler {:main gpm.test-doubles.core
-                                   :output-to "resources/deploy/js/compiled/app.js"
-                                   :optimizations :advanced
-                                   :closure-defines {goog.DEBUG false}
-                                   :pretty-print false}}
-
-                       {:id "unit-tests"
+  :cljsbuild {:builds [{:id "unit-tests"
                         :source-paths ["src" "test"]
                         :compiler {:output-to "out/unit_tests.js"
                                    :main gpm.test-doubles.unit-tests-runner
