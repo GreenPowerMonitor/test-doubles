@@ -44,7 +44,7 @@ In the following example[<sup>2</sup>](#nota2), we stub the `rand` function to m
         (rand)
         (catch :default e
           (is (= "Too many calls to stub" (ex-message e)))
-          (is (= {:causes :calls-exceeded, :provided-return-values [1 4 6 3]}
+          (is (= {:causes :calls-exceeded :provided-return-values [1 4 6 3]}
                  (ex-data e))))))))
 ```
 #### 1.2. `:constantly`
@@ -114,8 +114,10 @@ a `nil` will be returned when the received parameters don't match any of the map
 ### 2. Spying function calls
 You can use the `:spying` option inside `with-doubles` macro to spy on all the calls to the functions included in the vector after `:spying` keyword. To check the calls to the spied functions and the arguments passed in each call, you have to use the `calls-to` function.
 
-In the following example, we spy the calls to `some-function` and `println` functions. Then we call twice `some-function` and three times `greetings-function` (which calls `println`). Finally, we use `calls-to` function to check
-the calls to each spied function and the arguments passed to them in each call.
+In the following example, we spy the calls to `some-function` and `println` functions. Then we call twice `some-function` and three times `greetings-function` (which calls `println`).
+Finally, we use `calls-to` function to check the calls to each spied function and the arguments passed to them in each call.
+
+Notice that if we erroneously used `calls-to` on a function that was not being spied, it'd throw an exception to let us know.
 ```clojure
 (ns greenpowermonitor.test-doubles.spying-examples
   (:require
@@ -131,7 +133,7 @@ the calls to each spied function and the arguments passed to them in each call.
 (deftest spying-functions
   (td/with-doubles
     :spying [some-function
-                  println]
+             println]
 
     (some-function "koko" "triki")
     (some-function "miko" "miki")
@@ -145,7 +147,13 @@ the calls to each spied function and the arguments passed to them in each call.
     (is (= ["koko" "triki"] (-> some-function td/calls-to first)))
 
     (is (= 3 (-> println td/calls-to count)))
-    (is (->> greetings-function td/calls-to (every? #(= % "Hola!"))))))
+    (is (->> println td/calls-to (every? #(= % ["Hola!"]))))
+
+    (try
+      (td/calls-to greetings-function)
+      (catch :default e
+        (is (= "Checking calls to not spied function"
+               (ex-message e)))))))
 ```
 ### 3. Ignoring function calls
 You can use the `:ignoring` option inside `with-doubles` macro to ignore all the calls to the functions included in the vector after `:ignoring` keyword.
