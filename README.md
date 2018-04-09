@@ -4,7 +4,7 @@ A small spying and stubbing library for Clojure and ClojureScript.
 
 ## Install
 
-Add `[greenpowermonitor/test-doubles "0.1.1-SNAPSHOT"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[greenpowermonitor/test-doubles "0.1.2"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
 
 ## Usage
 
