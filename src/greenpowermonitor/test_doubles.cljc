@@ -75,5 +75,5 @@
 (defn calls-to [function]
   (if-let [calls (some-> *spies-atom* deref (get function) deref)]
     (mapv vec calls)
-    (throw #?(:clj  (Exception. "Checking calls to not spied function")
-              :cljs (js/Error. "Checking calls to not spied function")))))
+    (throw #?(:clj  (Exception. "Attempting to check calls for a function that is not being spied on")
+              :cljs (js/Error. "Attempting to check calls for a function that is not being spied on")))))

@@ -35,7 +35,7 @@
       (catch #?(:clj  Exception
                 :cljs :default)
              e
-        (is (= "Checking calls to not spied function"
+        (is (= "Attempting to check calls for a function that is not being spied on"
                #?(:clj  (.getMessage e)
                   :cljs (ex-message e))))))))
 
