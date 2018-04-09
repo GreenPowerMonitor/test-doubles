@@ -1,4 +1,6 @@
-# test-doubles [![Clojars Project](https://img.shields.io/clojars/v/greenpowermonitor/test-doubles.svg)](https://clojars.org/greenpowermonitor/test-doubles)
+# test-doubles [![Clojars Project](https://img.shields.io/clojars/v/greenpowermonitor/test-doubles.svg)](https://clojars.org/greenpowermonitor/test-doubles) 
+
+[![Build Status](https://travis-ci.org/greenpowermonitor/test-doubles.svg?branch=master)](https://travis-ci.org/greenpowermonitor/test-doubles)
 
 A small spying and stubbing library for Clojure and ClojureScript.
 
