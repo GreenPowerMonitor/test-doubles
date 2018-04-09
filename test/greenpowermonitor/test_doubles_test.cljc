@@ -28,7 +28,16 @@
     (is (= ["koko" "triki"] (-> some-function td/calls-to first)))
 
     (is (= 3 (-> println td/calls-to count)))
-    (is (->> greetings-function td/calls-to (every? #(= % "Hola!"))))))
+    (is (->> println td/calls-to (every? #(= % ["Hola!"]))))
+
+    (try
+      (td/calls-to greetings-function)
+      (catch #?(:clj  Exception
+                :cljs :default)
+             e
+        (is (= "Attempting to check calls for a function that is not being spied on"
+               #?(:clj  (.getMessage e)
+                  :cljs (ex-message e))))))))
 
 (deftest ignoring-functions
   (let [double-and-greet (fn [x] (print x) (greetings-function) (* 2 x))]
@@ -61,7 +70,7 @@
           (is (= "Too many calls to stub"
                  #?(:clj  (.getMessage e)
                     :cljs (ex-message e))))
-          (is (= {:causes :calls-exceeded, :provided-return-values [1 4 6]}
+          (is (= {:causes :calls-exceeded :provided-return-values [1 4 6]}
                  (ex-data e)))))))
 
   (testing "make a function return always the same value"

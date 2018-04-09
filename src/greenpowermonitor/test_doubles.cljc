@@ -73,8 +73,7 @@
           (reset! *spies-atom* {})))))
 
 (defn calls-to [function]
-  (let [calls (some-> *spies-atom*
-                      deref
-                      (get function)
-                      deref)]
-    (mapv vec calls)))
+  (if-let [calls (some-> *spies-atom* deref (get function) deref)]
+    (mapv vec calls)
+    (throw #?(:clj  (Exception. "Attempting to check calls for a function that is not being spied on")
+              :cljs (js/Error. "Attempting to check calls for a function that is not being spied on")))))
