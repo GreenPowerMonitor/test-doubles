@@ -35,8 +35,7 @@
 
 #?(:clj
    (defn- create-spying-list [functions]
-     (->> functions
-          (mapcat #(vector % `(make-spy-fn))))))
+     (mapcat #(vector % `(make-spy-fn)) functions)))
 
 #?(:clj
    (defn- create-stubbing-list [functions]
@@ -46,8 +45,7 @@
 
 #?(:clj
    (defn- create-ignoring-list [functions]
-     (->> functions
-          (mapcat #(vector % `(constantly nil))))))
+     (mapcat #(vector % `(constantly nil)) functions)))
 
 #?(:clj
    (defn- create-doubles-list [spying stubbing ignoring]
