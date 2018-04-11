@@ -7,7 +7,7 @@
 (defn make-spy-fn []
   (let [func-atom (atom [])]
     (letfn [(spy-fn [& args]
-              (swap! func-atom conj args))]
+              (swap! func-atom conj (vec args)))]
       (swap! *spies-atom* conj {spy-fn func-atom})
       spy-fn)))
 
@@ -35,22 +35,17 @@
 
 #?(:clj
    (defn- create-spying-list [functions]
-     (->> functions
-          (mapcat #(conj [] % `(make-spy-fn)))
-          vec)))
+     (mapcat #(vector % `(make-spy-fn)) functions)))
 
 #?(:clj
    (defn- create-stubbing-list [functions]
      (->> functions
           (partition 3)
-          (mapcat (fn [[func key values]] [func `(make-stub-fn ~key ~values)]))
-          vec)))
+          (mapcat (fn [[func key values]] [func `(make-stub-fn ~key ~values)])))))
 
 #?(:clj
    (defn- create-ignoring-list [functions]
-     (->> functions
-          (mapcat #(conj [] % `(constantly nil)))
-          vec)))
+     (mapcat #(vector % `(constantly nil)) functions)))
 
 #?(:clj
    (defn- create-doubles-list [spying stubbing ignoring]
@@ -74,6 +69,6 @@
 
 (defn calls-to [function]
   (if-let [calls (some-> *spies-atom* deref (get function) deref)]
-    (mapv vec calls)
+    calls
     (throw #?(:clj  (Exception. "Attempting to check calls for a function that is not being spied on")
               :cljs (js/Error. "Attempting to check calls for a function that is not being spied on")))))
