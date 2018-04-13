@@ -203,7 +203,17 @@ In the following example, we are using two **stubs** (one with `:maps` option an
         (is (= some-api-url url))
         (is (= expected-output (:json-params data)))))))
 ```
+## Rationale
 
+We were dealing with some legacy code that was effectful and needed to be tested, so we explored some existing ClojureScript libraries but we didn't feel comfortable with them. [stubadub](https://github.com/magnars/stubadub) was a great candidate and we gave it a try, but its usage introduced a lot of nesting when stubbing and/or spying multiple functions. It also mixed the concept of spies and stubs into one which was confusing to us because we were used to  [Gerard Meszaros’ vocabulary for tests doubles](https://martinfowler.com/bliki/TestDouble.html).
+
+What we wanted to achieve with this library was to:
+- Provide a small DSL to create spies and stubs that followed Gerard Meszaros’ vocabulary for tests doubles.
+- Avoid having different macros for each test double type to produce tests with as little nesting as possible.
+
+## Warning
+
+`test-doubles` uses `with-redefs` under the hood, so the redefinition of any function you're stubbing or spying is not thread-local. This means that `test-doubles` won't work if tests are run in parallel or if used to test asynchronous code.
 
 ## Footnotes
 
