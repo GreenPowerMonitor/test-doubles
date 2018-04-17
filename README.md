@@ -2,6 +2,20 @@
 
 A small spying and stubbing library for Clojure and ClojureScript.
 
+- [Install](#install)
+- [Usage](#usage)
+  * [1. Stubbing function calls](#1-stubbing-function-calls)
+    + [1.1. :returns option](#11-returns-option)
+    + [1.2. `:constantly`](#12-constantly)
+    + [1.3. `:maps`](#13-maps)
+  * [2. Spying function calls](#2-spying-function-calls)
+  * [3. Ignoring function calls](#3-ignoring-function-calls)
+  * [4. Combining different types of test doubles inside `with-doubles` macro.](#4-combining-different-types-of-test-doubles-inside-with-doubles-macro)
+- [Rationale](#rationale)
+- [Warning](#warning)
+- [Footnotes](#footnotes)
+- [License](#license)
+
 ## Install
 
 Add `[greenpowermonitor/test-doubles "0.1.2"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
@@ -203,7 +217,17 @@ In the following example, we are using two **stubs** (one with `:maps` option an
         (is (= some-api-url url))
         (is (= expected-output (:json-params data)))))))
 ```
+## Rationale
 
+We were dealing with some legacy code that was effectful and needed to be tested, so we explored some existing ClojureScript libraries but we didn't feel comfortable with them. [stubadub](https://github.com/magnars/stubadub) was a great candidate and we gave it a try, but its usage introduced a lot of nesting when stubbing and/or spying multiple functions. It also mixed the concept of spies and stubs into one which was confusing to us because we were used to  [Gerard Meszaros’ vocabulary for tests doubles](https://martinfowler.com/bliki/TestDouble.html).
+
+What we wanted to achieve with this library was to:
+- Provide a small DSL to create spies and stubs that followed Gerard Meszaros’ vocabulary for tests doubles.
+- Avoid having different macros for each test double type to produce tests with as little nesting as possible.
+
+## Warning
+
+`test-doubles` uses `with-redefs` under the hood, so the redefinition of any function you're stubbing or spying is not thread-local. This means that `test-doubles` won't work if tests are run in parallel or if used to test asynchronous code.
 
 ## Footnotes
 
