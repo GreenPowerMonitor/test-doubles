@@ -2,6 +2,20 @@
 
 A small spying and stubbing library for Clojure and ClojureScript.
 
+- [Install](#install)
+- [Usage](#usage)
+  * [1. Stubbing function calls](#1-stubbing-function-calls)
+    + [1.1. :returns option](#11-returns-option)
+    + [1.2. `:constantly`](#12-constantly)
+    + [1.3. `:maps`](#13-maps)
+  * [2. Spying function calls](#2-spying-function-calls)
+  * [3. Ignoring function calls](#3-ignoring-function-calls)
+  * [4. Combining different types of test doubles inside `with-doubles` macro.](#4-combining-different-types-of-test-doubles-inside-with-doubles-macro)
+- [Rationale](#rationale)
+- [Warning](#warning)
+- [Footnotes](#footnotes)
+- [License](#license)
+
 ## Install
 
 Add `[greenpowermonitor/test-doubles "0.1.2"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
