@@ -96,4 +96,19 @@
 
       (is (= 30 (constantly 1)))
       (is (= 40 (constantly 2)))
-      (is (= nil (constantly 6))))))
+      (is (= nil (constantly 6)))))
+
+  (testing "throws an exception when stubbing with an unknown option"
+    (try
+      (td/with-doubles
+        :stubbing [constantly :unknown-option 3]
+
+        #_any-code)
+      (catch #?(:clj  Exception
+                :cljs :default)
+             e
+        (is (= "make-stub-fn called with unknown keyword"
+               #?(:clj  (.getMessage e)
+                  :cljs (ex-message e))))
+        (is (= {:cause :unkown-keyword :key :unknown-option}
+               (ex-data e)))))))
