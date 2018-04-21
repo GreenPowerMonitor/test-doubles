@@ -70,5 +70,6 @@
 (defn calls-to [function]
   (if-let [calls (some-> *spies-atom* deref (get function) deref)]
     calls
-    (throw #?(:clj  (Exception. "Attempting to check calls for a function that is not being spied on")
-              :cljs (js/Error. "Attempting to check calls for a function that is not being spied on")))))
+    (let [error-msg "Attempting to check calls for a function that is not being spied on"]
+      (throw #?(:clj  (Exception. error-msg)
+                :cljs (js/Error. error-msg))))))
