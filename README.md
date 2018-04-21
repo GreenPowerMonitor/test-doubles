@@ -192,7 +192,7 @@ In the following example, we are using two **stubs** (one with `:maps` option an
    [horizon.common.config :as c]
    [horizon.common.state.lens :as l]
    [horizon.domain.maintenance.work-orders.member :as sut]
-   [horizon.domain.rim.state :as domain.rim.state]))
+   [horizon.domain.rim :as domain.rim))
 
 (deftest saving-changes
   (let [some-api-url "some-url"]
