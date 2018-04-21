@@ -184,24 +184,37 @@ You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
 ```clojure
+(ns greenpowermonitor.test-doubles.example
+  (:require
+   [clojure.test :refer [deftest testing is]]
+   [greenpowermonitor.test-doubles :as td]
+   [horizon.common.ajax.api :as service]
+   [horizon.common.config :as c]
+   [horizon.common.state.lens :as l]
+   [horizon.domain.maintenance.work-orders.member :as sut]
+   [horizon.domain.rim.state :as domain.rim.state]))
+
 (deftest saving-changes
-  (let [changes {:interventions {53 7}}
-        expected-output :some-expected-request-data-to-save
-        some-api-url "some-url"
-        state-id 1]
+  (let [some-api-url "some-url"]
     (td/with-doubles
-      :stubbing [l/view :maps {[domain.rim/rim-wo-edit-changes-lens] changes
-                               [domain.rim/rim-wo-edit-state-id-lens] state-id
-                               [domain.rim/rim-wo-translated-lens] :translated-data-to-save}
+      :stubbing [l/view :maps {[domain.rim/rim-wo-edit-changes-lens] {:interventions {53 7}}
+                               [domain.rim/rim-wo-edit-state-id-lens] 1
+                               [domain.rim/rim-wo-translated-lens] {:interventions [{:value 1
+                                                                                     :state-id 1
+                                                                                     :id 53}]}}
                  c/mk-work-orders-save-url :returns [some-api-url]]
       :spying [service/put]
 
       (sut/save-changes!)
 
       (is (= 1 (-> service/put td/calls-to count)))
+
       (let [[url data] (-> service/put td/calls-to first)]
         (is (= some-api-url url))
-        (is (= expected-output (:json-params data)))))))
+        (is (= {:state-id 1
+                :id 3
+                :values [{:id 53 :value "7"}]}
+               (:json-params data)))))))
 ```
 
 
