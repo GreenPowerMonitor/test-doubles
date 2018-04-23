@@ -70,7 +70,8 @@
           (is (= "Too many calls to stub"
                  #?(:clj  (.getMessage e)
                     :cljs (ex-message e))))
-          (is (= {:causes :calls-exceeded :provided-return-values [1 4 6]}
+          (is (= {:causes :calls-exceeded
+                  :provided-return-values [1 4 6]}
                  (ex-data e)))))))
 
   (testing "make a function return always the same value"
@@ -96,4 +97,21 @@
 
       (is (= 30 (constantly 1)))
       (is (= 40 (constantly 2)))
-      (is (= nil (constantly 6))))))
+      (is (= nil (constantly 6)))))
+
+  (testing "throws an exception when stubbing with an unknown option"
+    (try
+      (td/with-doubles
+        :stubbing [constantly :some-unknown-option 3]
+
+        #_any-code)
+      (catch #?(:clj  Exception
+                :cljs :default)
+             e
+        (is (= "Using :stubbing with an unknown option"
+               #?(:clj  (.getMessage e)
+                  :cljs (ex-message e))))
+        (is (= {:cause :unknown-option
+                :used-option :some-unknown-option
+                :available-options [:maps :returns :constantly]}
+               (ex-data e)))))))

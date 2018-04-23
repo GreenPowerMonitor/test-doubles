@@ -22,16 +22,17 @@
           (swap! values-atom rest)
           value)))))
 
-(defn make-stub-fn [key args]
-  (case key
+(defn make-stub-fn [option args]
+  (case option
     :maps (fn [& fn-args]
             (let [call-args (vec fn-args)]
               (get args call-args (:any args))))
     :returns (make-mult-calls-stub-fn args)
     :constantly (constantly args)
-    (throw (ex-info "make-stub-fn called with unknown keyword"
-                    {:cause :unkown-keyword
-                     :key key}))))
+    (throw (ex-info "Using :stubbing with an unknown option"
+                    {:cause :unknown-option
+                     :used-option option
+                     :available-options [:maps :returns :constantly]}))))
 
 #?(:clj
    (defn- create-spying-list [functions]
