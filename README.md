@@ -184,37 +184,27 @@ You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
 ```clojure
-(ns greenpowermonitor.test-doubles.example
-  (:require
-   [clojure.test :refer [deftest testing is]]
-   [greenpowermonitor.test-doubles :as td]
-   [horizon.common.ajax.api :as service]
-   [horizon.common.config :as c]
-   [horizon.common.state.lens :as l]
-   [horizon.domain.maintenance.work-orders.member :as sut]
-   [horizon.domain.rim :as domain.rim))
+(defn employee-info [_])
 
-(deftest saving-changes
-  (let [some-api-url "some-url"]
-    (td/with-doubles
-      :stubbing [l/view :maps {[domain.rim/rim-wo-edit-changes-lens] {:interventions {53 7}}
-                               [domain.rim/rim-wo-edit-state-id-lens] 1
-                               [domain.rim/rim-wo-translated-lens] {:interventions [{:value 1
-                                                                                     :state-id 1
-                                                                                     :id 53}]}}
-                 c/mk-work-orders-save-url :returns [some-api-url]]
-      :spying [service/put]
+(defn today [])
 
-      (sut/save-changes!)
+(defn birthday-greetings [ids]
+  (let [employees-to-greet (->> ids
+                             (map employee-info)
+                             (filter #(= (today) (:birth-date %))))]
+    (doseq [employee employees-to-greet]
+      (println (str "Happy birthday " (:name employee) "!")))))
 
-      (is (= 1 (-> service/put td/calls-to count)))
+(deftest greeting-employess-whose-bithday-is-today
+  (td/with-doubles
+    :stubbing [employee-info :maps {[1] {:name "Koko" :birth-date {:day 1 :month 2}}
+                                    [2] {:name "Loko" :birth-date {:day 13 :month 12}}}
+               today :constantly {:day 1 :month 2}]
+    :spying [println]
 
-      (let [[url data] (-> service/put td/calls-to first)]
-        (is (= some-api-url url))
-        (is (= {:state-id 1
-                :id 3
-                :values [{:id 53 :value "7"}]}
-               (:json-params data)))))))
+    (birthday-greetings [1 2])
+
+    (is (= [["Happy birthday Koko!"]] (td/calls-to println)))))
 ```
 
 
