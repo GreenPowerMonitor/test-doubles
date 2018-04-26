@@ -184,6 +184,11 @@ You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
 ```clojure
+(ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
+  (:require
+   [clojure.test :refer [deftest is]]
+   [greenpowermonitor.test-doubles :as td]))
+
 (defn employee-info [_])
 
 (defn today [])
