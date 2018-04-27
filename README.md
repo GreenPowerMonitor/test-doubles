@@ -200,7 +200,7 @@ In the following example, we are using two **stubs** (one with `:maps` option an
     (doseq [employee employees-to-greet]
       (println (str "Happy birthday " (:name employee) "!")))))
 
-(deftest greeting-employess-whose-bithday-is-today
+(deftest greeting-employees-whose-birthday-is-today
   (td/with-doubles
     :stubbing [employee-info :maps {[1] {:name "Koko" :birth-date {:day 1 :month 2}}
                                     [2] {:name "Loko" :birth-date {:day 13 :month 12}}}
