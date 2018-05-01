@@ -198,24 +198,32 @@ You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
 ```clojure
-(deftest saving-changes
-  (let [changes {:interventions {53 7}}
-        expected-output :some-expected-request-data-to-save
-        some-api-url "some-url"
-        state-id 1]
-    (td/with-doubles
-      :stubbing [l/view :maps {[domain.rim/rim-wo-edit-changes-lens] changes
-                               [domain.rim/rim-wo-edit-state-id-lens] state-id
-                               [domain.rim/rim-wo-translated-lens] :translated-data-to-save}
-                 c/mk-work-orders-save-url :returns [some-api-url]]
-      :spying [service/put]
+(ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
+  (:require
+   [clojure.test :refer [deftest is]]
+   [greenpowermonitor.test-doubles :as td]))
 
-      (sut/save-changes!)
+(defn employee-info [_])
 
-      (is (= 1 (-> service/put td/calls-to count)))
-      (let [[url data] (-> service/put td/calls-to first)]
-        (is (= some-api-url url))
-        (is (= expected-output (:json-params data)))))))
+(defn today [])
+
+(defn birthday-greetings [ids]
+  (let [employees-to-greet (->> ids
+                             (map employee-info)
+                             (filter #(= (today) (:birth-date %))))]
+    (doseq [employee employees-to-greet]
+      (println (str "Happy birthday " (:name employee) "!")))))
+
+(deftest greeting-employees-whose-birthday-is-today
+  (td/with-doubles
+    :stubbing [employee-info :maps {[1] {:name "Koko" :birth-date {:day 1 :month 2}}
+                                    [2] {:name "Loko" :birth-date {:day 13 :month 12}}}
+               today :constantly {:day 1 :month 2}]
+    :spying [println]
+
+    (birthday-greetings [1 2])
+
+    (is (= [["Happy birthday Koko!"]] (td/calls-to println)))))
 ```
 ## Rationale
 
