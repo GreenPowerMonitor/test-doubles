@@ -193,7 +193,30 @@ In the following example, even though you call the `double-print-x-and-greet` fu
 
       (is (= "" (with-out-str (double-and-greet 2)))))))
 ```
-### 4. Combining different types of test doubles inside `with-doubles` macro.
+
+### 4. Making functions throw exceptions.
+You can use the `:throwing` option inside `with-doubles` macro to make functions all the calls to the functions throw exceptions with the message and data you want.
+
+```clojure
+(ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
+  (:require
+   [clojure.test :refer [deftest testing is]]
+   [greenpowermonitor.test-doubles :as td]))
+
+(deftest making-functions-throw-exceptions
+  (let [message "message"
+        some-map {:cause :some-cause}]
+    (td/with-doubles
+      :throwing [println {:message message :ex-data some-map}]
+      (try
+        (println "something")
+        (is false "should have thrown!")
+        (catch :default e
+          (is (= message (ex-message e)))
+          (is (= some-map (ex-data e))))))))
+```
+
+### 5. Combining different types of test doubles inside `with-doubles` macro.
 You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
