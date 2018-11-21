@@ -10,8 +10,8 @@ A small spying and stubbing library for Clojure and ClojureScript.
     + [1.3. `:maps`](#13-maps)
   * [2. Spying function calls](#2-spying-function-calls)
   * [3. Ignoring function calls](#3-ignoring-function-calls)
-  * [4. Making function calls throw exceptions](#making-function-calls-throw-exceptions)
-  * [5. Combining different types of test doubles inside `with-doubles` macro.](#4-combining-different-types-of-test-doubles-inside-with-doubles-macro)
+  * [4. Making function calls throw exceptions](#4-making-function-calls-throw-exceptions)
+  * [5. Combining different types of test doubles inside `with-doubles` macro](#5-combining-different-types-of-test-doubles-inside-with-doubles-macro)
 - [Rationale](#rationale)
 - [Warning](#warning)
 - [Footnotes](#footnotes)
@@ -195,7 +195,7 @@ In the following example, even though you call the `double-print-x-and-greet` fu
       (is (= "" (with-out-str (double-and-greet 2)))))))
 ```
 
-### 4. Making function calls throw exceptions.
+### 4. Making function calls throw exceptions
 You can use the `:throwing` option inside `with-doubles` macro to make functions all the calls to the functions throw exceptions with the message and data you want.
 
 ```clojure
@@ -217,7 +217,7 @@ You can use the `:throwing` option inside `with-doubles` macro to make functions
           (is (= some-map (ex-data e))))))))
 ```
 
-### 5. Combining different types of test doubles inside `with-doubles` macro.
+### 5. Combining different types of test doubles inside `with-doubles` macro
 You can use as many test doubles as you want inside `with-doubles` macro.
 
 In the following example, we are using two **stubs** (one with `:maps` option and another with `:returns` option) and a **spy**.
