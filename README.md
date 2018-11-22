@@ -196,7 +196,7 @@ In the following example, even though you call the `double-print-x-and-greet` fu
 ```
 
 ### 4. Making function calls throw exceptions
-You can use the `:throwing` option inside `with-doubles` macro to make functions all the calls to the functions throw exceptions with the message and data you want.
+You can use the `:throwing` option inside `with-doubles` macro to make all calls to the specified functions throw exceptions with the message and data you want.
 
 ```clojure
 (ns greenpowermonitor.test-doubles.stubbing-with-returns-examples
