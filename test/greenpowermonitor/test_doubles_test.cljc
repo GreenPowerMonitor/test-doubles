@@ -115,3 +115,20 @@
                 :used-option :some-unknown-option
                 :available-options [:maps :returns :constantly]}
                (ex-data e)))))))
+
+(deftest making-functions-throw-exceptions
+  (let [message "message"
+        some-map {:cause :some-cause}]
+    (td/with-doubles
+      :throwing [println {:message message :ex-data some-map}]
+      (try
+        (println "something")
+        (is false "should have thrown!")
+        (catch #?(:clj  Exception
+                  :cljs :default)
+               e
+          (is (= message
+                 #?(:clj  (.getMessage e)
+                    :cljs (ex-message e))))
+          (is (= some-map
+                 (ex-data e))))))))

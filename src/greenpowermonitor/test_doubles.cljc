@@ -34,6 +34,9 @@
                      :used-option option
                      :available-options [:maps :returns :constantly]}))))
 
+(defn make-throwing-fn [{:keys [message ex-data]}]
+  (fn [& _] (throw (ex-info message ex-data))))
+
 #?(:clj
    (defn- create-spying-list [functions]
      (mapcat #(vector % `(make-spy-fn)) functions)))
@@ -49,10 +52,17 @@
      (mapcat #(vector % `(constantly nil)) functions)))
 
 #?(:clj
-   (defn- create-doubles-list [spying stubbing ignoring]
+   (defn create-throwing-list [functions]
+     (->> functions
+          (partition 2)
+          (mapcat (fn [[func exception-data]] [func `(make-throwing-fn ~exception-data)])))))
+
+#?(:clj
+   (defn- create-doubles-list [spying stubbing ignoring throwing]
      (vec (concat (create-spying-list spying)
                   (create-stubbing-list stubbing)
-                  (create-ignoring-list ignoring)))))
+                  (create-ignoring-list ignoring)
+                  (create-throwing-list throwing)))))
 
 #?(:clj
    (defn- extract-with-double-args [args]
@@ -62,9 +72,9 @@
 #?(:clj
    (defmacro with-doubles [& args]
      (let [[doubles body] (extract-with-double-args args)
-           {:keys [spying stubbing ignoring]
-            :or {spying [] stubbing [] ignoring []}} doubles]
-       `(with-redefs ~(create-doubles-list spying stubbing ignoring)
+           {:keys [spying stubbing ignoring throwing]
+            :or {spying [] stubbing [] ignoring [] throwing []}} doubles]
+       `(with-redefs ~(create-doubles-list spying stubbing ignoring throwing)
           ~@body
           (reset! *spies-atom* {})))))
 
