@@ -75,8 +75,9 @@
            {:keys [spying stubbing ignoring throwing]
             :or {spying [] stubbing [] ignoring [] throwing []}} doubles]
        `(with-redefs ~(create-doubles-list spying stubbing ignoring throwing)
-          ~@body
-          (reset! *spies-atom* {})))))
+          (let [result# (do ~@body)]
+            (reset! *spies-atom* {})
+            result#)))))
 
 (defn calls-to [function]
   (if-let [calls (some-> *spies-atom* deref (get function) deref)]

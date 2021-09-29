@@ -132,3 +132,7 @@
                     :cljs (ex-message e))))
           (is (= some-map
                  (ex-data e))))))))
+
+(deftest returning-the-body-value
+  (is (= "hi there"
+         (td/with-doubles "hi there"))))
